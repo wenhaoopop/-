@@ -8,6 +8,10 @@ TOKEN = "your_token_here"
 # 建立 Telegram Bot
 bot = telegram.Bot(token=TOKEN)
 
+# 禁用 Telegram Bot 的网络代理
+request = telegram.utils.request.Request(proxy_url=None)
+bot = telegram.Bot(token=TOKEN, request=request)
+
 # 建立更新器
 updater = Updater(token=TOKEN, use_context=True)
 
@@ -17,8 +21,10 @@ address_dict = {}
 # 监听地址变化的函数
 def check_address():
     # TODO: 实现监听地址变化的代码
+    pass
+
 # 建立 start 命令处理函数
-def start(update: Update, context: CallbackContext) -> None:
+def start(update: telegram.Update, context: telegram.ext.CallbackContext) -> None:
     user = update.message.from_user
     # 欢迎信息
     welcome_message = f"欢迎使用 USDT 监控机器人，{user.first_name}！\n\n"
@@ -215,7 +221,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandle
 address_dict = {}
 
 # 建立 start 命令处理函数
-def start(update: Update, context: CallbackContext) -> None:
+def start(update: telegram.Update, context: telegram.ext.CallbackContext) -> None:
     # 发送欢迎信息和主菜单
     context.bot.send_message(chat_id=update.effective_chat.id, text="欢迎使用 USDT 监控机器人！", reply_markup=main_keyboard())
 
@@ -443,4 +449,6 @@ updater.dispatcher.add_handler(MessageHandler(Filters.text, message_handler))
 updater.start_polling()
 updater.idle()
 
-请你帮我检查这个代码
+# 运行整个程序
+if __name__ == '__main__':
+    main()
